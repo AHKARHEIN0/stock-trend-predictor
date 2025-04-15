@@ -3,6 +3,7 @@ import LogsViewer from "./components/LogsViewer";
 import TradeSimulator from "./components/TradeSimulator";
 import TradeChart from "./components/TradeChart";
 import SettingsPanel from "./components/SettingsPanel";
+import WinLossCharts from "./components/WinLossCharts";
 
 function App() {
   const [refresh, setRefresh] = useState(false);
@@ -12,6 +13,7 @@ function App() {
     <div className="App max-w-5xl mx-auto p-4">
       <SettingsPanel />
       <TradeSimulator onTrade={reloadLogs} />
+      <WinLossCharts />   
       <TradeChart />
       <LogsViewer key={refresh} />
     </div>
