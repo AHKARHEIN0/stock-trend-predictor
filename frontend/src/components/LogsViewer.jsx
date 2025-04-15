@@ -35,6 +35,7 @@ const LogsViewer = () => {
               <th className="px-2 py-1 border">Confidence</th>
               <th className="px-2 py-1 border">Price</th>
               <th className="px-2 py-1 border">Volume</th>
+              <th className="px-2 py-1 border">Result</th>
             </tr>
           </thead>
           <tbody>
@@ -54,6 +55,7 @@ const LogsViewer = () => {
                 <td className="px-2 py-1 border">{log.confidence}</td>
                 <td className="px-2 py-1 border">{log.price}</td>
                 <td className="px-2 py-1 border">{log.volume}</td>
+                <td className="px-2 py-1 border">{log.result || "-"}</td>
               </tr>
             ))}
           </tbody>
