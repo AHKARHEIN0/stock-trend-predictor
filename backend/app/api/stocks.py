@@ -3,6 +3,7 @@ from app.services.stock_fetcher import fetch_stock_data
 from app.services.risk_manager import is_trade_allowed
 from app.services.predictor import predict_action
 from app.services.trade_logger import log_trade
+from app.services.logs_viewer import read_logs
 
 
 router = APIRouter()
@@ -72,3 +73,7 @@ def trade(symbol: str = Query(...)):
             "Trade blocked by risk manager."
         )
     }
+
+@router.get("/logs")
+def get_logs():
+    return read_logs()
