@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Body
 from app.services.stock_fetcher import fetch_stock_data
 from app.services.risk_manager import is_trade_allowed
 from app.services.predictor import predict_action
 from app.services.trade_logger import log_trade
 from app.services.logs_viewer import read_logs
-
+from app.services.settings_service import get_settings, update_setting
 
 router = APIRouter()
 
@@ -73,6 +73,15 @@ def trade(symbol: str = Query(...)):
             "Trade blocked by risk manager."
         )
     }
+
+@router.get("/settings")
+def read_settings():
+    return get_settings()
+
+@router.post("/settings")
+def write_setting(key: str = Body(...), value: str = Body(...)):
+    update_setting(key, value)
+    return {"status": "updated"}
 
 @router.get("/logs")
 def get_logs():

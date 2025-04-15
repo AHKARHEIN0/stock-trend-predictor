@@ -16,5 +16,23 @@
     "price": 254.37,
     "volume": 740308,
     "timestamp": "2025-04-15T15:38:39.360670+00:00"
+  },
+  {
+    "symbol": "AAPL",
+    "prediction": "hold",
+    "allowed": true,
+    "confidence": 0.92,
+    "price": 202.22,
+    "volume": 61716,
+    "timestamp": "2025-04-15T15:41:35.422653+00:00"
+  },
+  {
+    "symbol": "GOOGL",
+    "prediction": "hold",
+    "allowed": true,
+    "confidence": 0.92,
+    "price": 156.74,
+    "volume": 51591,
+    "timestamp": "2025-04-15T15:41:58.009393+00:00"
   }
 ]
