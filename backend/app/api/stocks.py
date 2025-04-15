@@ -33,3 +33,36 @@ def predict(symbol: str = Query(...)):
         "allowed": allowed
     }
 
+@router.post("/trade")
+def trade(symbol: str = Query(...)):
+    stock_data = fetch_stock_data(symbol)
+
+    if "error" in stock_data:
+        return {"symbol": symbol, "error": stock_data["error"]}
+
+    price = stock_data["price"]
+    volume = stock_data["volume"]
+    confidence = 0.92  # simulated confidence
+    trade_amount = 5  # pretend 5% capital
+    daily_loss = 100  # pretend $100 down today
+
+    prediction = predict_action(price, volume)
+    allowed = is_trade_allowed(confidence, trade_amount, daily_loss)
+
+    if not allowed:
+        return {
+            "symbol": symbol,
+            "prediction": prediction,
+            "allowed": False,
+            "message": "Trade blocked by risk manager."
+        }
+
+    return {
+        "symbol": symbol,
+        "price": price,
+        "volume": volume,
+        "prediction": prediction,
+        "allowed": True,
+        "message": f"Simulated trade executed: {prediction.upper()} {symbol}"
+    }
+

@@ -27,3 +27,12 @@ def test_predict_endpoint():
     assert "allowed" in data
     assert isinstance(data["allowed"], bool)
 
+def test_trade_endpoint():
+    response = client.post("/trade?symbol=AAPL")
+    assert response.status_code == 200
+    data = response.json()
+    assert "prediction" in data
+    assert data["prediction"] in ["buy", "sell", "hold"]
+    assert "allowed" in data
+    assert "message" in data
+
