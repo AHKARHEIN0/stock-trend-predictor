@@ -1,12 +1,12 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 LOG_FILE = Path("backend/logs/trade_log.json")
 
 def log_trade(data: dict):
     LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
-    data["timestamp"] = datetime.utcnow().isoformat()
+    data["timestamp"] = datetime.now(timezone.utc).isoformat()
     
     if LOG_FILE.exists():
         existing = json.loads(LOG_FILE.read_text())

@@ -2,6 +2,8 @@ from fastapi import APIRouter, Query
 from app.services.stock_fetcher import fetch_stock_data
 from app.services.risk_manager import is_trade_allowed
 from app.services.predictor import predict_action
+from app.services.trade_logger import log_trade
+
 
 router = APIRouter()
 
@@ -43,26 +45,30 @@ def trade(symbol: str = Query(...)):
     price = stock_data["price"]
     volume = stock_data["volume"]
     confidence = 0.92  # simulated confidence
-    trade_amount = 5  # pretend 5% capital
-    daily_loss = 100  # pretend $100 down today
+    trade_amount = 5
+    daily_loss = 100
 
     prediction = predict_action(price, volume)
     allowed = is_trade_allowed(confidence, trade_amount, daily_loss)
 
-    if not allowed:
-        return {
-            "symbol": symbol,
-            "prediction": prediction,
-            "allowed": False,
-            "message": "Trade blocked by risk manager."
-        }
+    log_trade({
+        "symbol": symbol,
+        "prediction": prediction,
+        "allowed": allowed,
+        "confidence": confidence,
+        "price": price,
+        "volume": volume
+    })
 
     return {
-        "symbol": symbol,
+        "symbol": symbol.upper(),
         "price": price,
         "volume": volume,
         "prediction": prediction,
-        "allowed": True,
-        "message": f"Simulated trade executed: {prediction.upper()} {symbol}"
+        "allowed": allowed,
+        "message": (
+            f"Simulated trade executed: {prediction.upper()} {symbol}"
+            if allowed else
+            "Trade blocked by risk manager."
+        )
     }
-
