@@ -17,3 +17,10 @@ def test_read_root():
     assert "manual_mode" in data
     assert "max_daily_loss" in data
     assert "confidence" in data
+
+def test_predict_endpoint():
+    response = client.get("/predict?symbol=AAPL")
+    assert response.status_code == 200
+    data = response.json()
+    assert "prediction" in data
+    assert data["prediction"] in ["buy", "sell", "hold"]
