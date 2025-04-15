@@ -24,3 +24,6 @@ def test_predict_endpoint():
     data = response.json()
     assert "prediction" in data
     assert data["prediction"] in ["buy", "sell", "hold"]
+    assert "allowed" in data
+    assert isinstance(data["allowed"], bool)
+
