@@ -1,8 +1,10 @@
 from app.core.config import settings
 from pathlib import Path
 from dotenv import set_key
+from pathlib import Path
 
-ENV_PATH = Path("backend/.env")
+ENV_PATH = Path(__file__).resolve().parents[2] / ".env"
+
 
 def get_settings():
     return {

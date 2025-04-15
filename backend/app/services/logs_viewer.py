@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-LOG_FILE = Path("backend/logs/trade_log.json")
+LOG_FILE = Path(__file__).resolve().parents[2] / "logs" / "trade_log.json"
 
 def read_logs() -> list:
     if not LOG_FILE.exists():
