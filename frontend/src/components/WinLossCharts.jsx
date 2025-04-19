@@ -37,6 +37,19 @@ const WinLossCharts = () => {
     return acc;
   }, {});
 
+  const profitLossData = logs.reduce((acc, log) => {
+    if (!log.result) return acc;
+    const date = new Date(log.timestamp).toISOString().split("T")[0];
+    const change = log.result === "win" ? 1 : -1;  // 🧪 1 unit win/loss
+    acc[date] = (acc[date] || 0) + change;
+    return acc;
+  }, {});
+  
+  const plTrend = Object.entries(profitLossData).map(([date, value]) => ({
+    date,
+    net: value,
+  }));
+
   const trendList = Object.values(trendData);
 
   console.log("ResultData:", resultData);
@@ -46,7 +59,7 @@ const WinLossCharts = () => {
   return (
     <div className="p-4">
       <div className="flex gap-2 mb-4">
-        {["bar", "pie", "line"].map((type) => (
+        {["bar", "pie", "line", "pl"].map((type) => (
           <button
             key={type}
             className={`px-4 py-1 rounded ${
@@ -101,6 +114,17 @@ const WinLossCharts = () => {
               <Line type="monotone" dataKey="loss" stroke="#ef4444" />
             </LineChart>
           )}
+          {view === "pl" && (
+            <LineChart data={plTrend}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="net" stroke="#0ea5e9" />
+            </LineChart>
+          )}
+
         </ResponsiveContainer>
       </div>
     </div>
